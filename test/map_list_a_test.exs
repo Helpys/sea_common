@@ -1,4 +1,4 @@
-defmodule MapListTest do
+defmodule MapListATest do
   use ExUnit.Case, async: true
   doctest MapList
 
