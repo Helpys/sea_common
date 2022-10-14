@@ -26,18 +26,18 @@ defmodule MapListBTest do
     assert actual == "http://www.seaa.ch/base/Country/RO"
   end
 
-  # test " array properties" do
-  #   actual = MapList.get(@input_data_2, "ID")
-  #   assert actual == "http://www.seaa.ch/base/Country/BE"
-  # end
+  test " array properties" do
+    actual = MapList.get(@input_data_2, "ID")
+    assert actual == "http://www.seaa.ch/base/Country/BE"
+  end
 
-  # test " array propertiy" do
-  #   actual = MapList.get(@input_data_2, "<http://www.seaa.ch/base/language>")
-  #
-  #   assert actual == [
-  #            "http://www.seaa.ch/base/Language/fr",
-  #            "http://www.seaa.ch/base/Language/de",
-  #            "http://www.seaa.ch/base/Language/nl"
-  #          ]
-  # end
+  test " array propertiy" do
+    actual = MapList.get(@input_data_2, "<http://www.seaa.ch/base/language>")
+
+    assert actual == [
+             "http://www.seaa.ch/base/Language/fr",
+             "http://www.seaa.ch/base/Language/de",
+             "http://www.seaa.ch/base/Language/nl"
+           ]
+  end
 end

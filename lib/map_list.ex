@@ -1,4 +1,6 @@
 defmodule MapList do
+  require Logger
+
   @doc """
   Gets one value for a specific key in map in the list
 
@@ -85,7 +87,7 @@ defmodule MapList do
   end
 
   def get_internal(map_list, acc \\ nil, key) when is_list(map_list) do
-    assert_map_list!(map_list)
+    # assert_map_list!(map_list)
     Enum.reduce(map_list, acc, &get_func(&1, &2, key))
   end
 
@@ -101,8 +103,9 @@ defmodule MapList do
     Enum.reduce(values, acc, &collect_get_value(&1, &2, key))
   end
 
-  defp get_func(_x, _acc, _key) do
-    ["ERROR-001"]
+  defp get_func(x, acc, key) do
+    Logger.debug("ERROR-001 x='#{inspect(x)}' acc='#{inspect(acc)}' key='#{inspect(key)}'")
+    acc
   end
 
   defp collect_get_value(nil, acc, _key), do: acc
