@@ -53,9 +53,27 @@ defmodule MapList do
 
   defp collect_value(x, acc) when is_list(x), do: values(x, acc)
 
+  @doc """
+  Gets the first occurence of key in the maplist.
+
+  ## Examples
+      iex> MapList.get_first([ %{"X" => "0"}, %{"A" => "1"}, %{"A" => "2"}], "A")
+      "1"
+
+      iex> MapList.get_first([ %{"A" => "1"}, %{"A" => "2"}], "X")
+      nil
+
+      iex> MapList.get_first([ ], "X")
+      nil
+
+  """
   def get_first(map_list, acc \\ nil, key) do
     assert_map_list!(map_list)
-    get(map_list, acc, key) |> hd()
+
+    case get(map_list, acc, key) do
+      [hd | _tl] -> hd
+      _ -> nil
+    end
   end
 
   @doc """
