@@ -11,7 +11,7 @@ defmodule MapList do
       iex> MapList.is_maplist([])
       true
 
-      iex> MapList.is_maplist([1])
+      iex> MapList.is_maplist([7])
       false
 
       iex> MapList.is_maplist([%{}])
@@ -21,6 +21,8 @@ defmodule MapList do
   def is_maplist(nil), do: false
   def is_maplist([]), do: true
   def is_maplist(%{}), do: false
+  def is_maplist(term) when is_number(term), do: false
+  def is_maplist(term) when is_binary(term), do: false
 
   def is_maplist(list) when is_list(list) do
     not Enum.any?(list, fn x -> not is_map(x) end)
@@ -109,8 +111,17 @@ defmodule MapList do
   end
 
   defp collect_get_value(nil, acc, _key), do: acc
-  defp collect_get_value(x, acc, key) when is_list(x), do: get_internal(x, acc, key)
-  defp collect_get_value(x, acc, _key) when not is_list(x), do: acc
+
+  defp collect_get_value(x, acc, key) do
+    if is_maplist(x) do
+      get_internal(x, acc, key)
+    else
+      acc
+    end
+  end
+
+  # defp collect_get_value(x, acc, key) when is_list(x), do: get_internal(x, acc, key)
+  # defp collect_get_value(x, acc, _key) when not is_list(x), do: acc
 
   defp assert_map_list!(map_list) do
     if not is_maplist(map_list) do
