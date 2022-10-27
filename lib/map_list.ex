@@ -60,6 +60,9 @@ defmodule MapList do
       iex> MapList.get_first([ %{"X" => "0"}, %{"A" => "1"}, %{"A" => "2"}], "A")
       "1"
 
+      iex> MapList.get_first([ %{"X" => "0"}], "X")
+      "0"
+
       iex> MapList.get_first([ %{"A" => "1"}, %{"A" => "2"}], "X")
       nil
 
@@ -71,8 +74,11 @@ defmodule MapList do
     assert_map_list!(map_list)
 
     case get(map_list, acc, key) do
-      [hd | _tl] -> hd
-      _ -> nil
+      [hd | _tl] ->
+        hd
+
+      x ->
+        x
     end
   end
 
@@ -145,5 +151,26 @@ defmodule MapList do
     if not is_maplist(map_list) do
       raise "the given value is not a MapList. (#{inspect(map_list)})"
     end
+  end
+
+  @doc """
+  Flatten
+
+  ## Examples
+      iex> MapList.map_list_flatten([ %{"X" => "0", "Y" => "-1"}, %{"A" => "1"}])
+      [%{"A" => "1", "X" => "0", "Y" => "-1"}]
+
+      iex> MapList.map_list_flatten([ %{"A" => "1"}])
+      [%{"A" => "1"}]
+
+      iex> MapList.map_list_flatten([])
+      [%{}]
+
+  """
+  def map_list_flatten(map_list) do
+    assert_map_list!(map_list)
+
+    Enum.reduce(map_list, %{}, fn x, acc -> Enum.into(x, acc) end)
+    |> List.wrap()
   end
 end
