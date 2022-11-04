@@ -173,4 +173,29 @@ defmodule MapList do
     Enum.reduce(map_list, %{}, fn x, acc -> Enum.into(x, acc) end)
     |> List.wrap()
   end
+
+  @doc """
+  Flatten
+
+  ## Examples
+      iex> MapList.wrap(nil)
+      []
+
+      iex> MapList.wrap([])
+      []
+
+      iex> MapList.wrap(%{})
+      [%{}]
+
+      iex> MapList.wrap([%{}])
+      [%{}]
+
+  """
+  def wrap(map_list) do
+    case map_list do
+      nil -> []
+      %{} -> [%{}]
+      ml -> ml
+    end
+  end
 end
