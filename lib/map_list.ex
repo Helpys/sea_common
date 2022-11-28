@@ -23,6 +23,7 @@ defmodule MapList do
   def is_maplist(%{}), do: false
   def is_maplist(term) when is_number(term), do: false
   def is_maplist(term) when is_binary(term), do: false
+  def is_maplist(term) when is_boolean(term), do: false
 
   def is_maplist(list) when is_list(list) do
     not Enum.any?(list, fn x -> not is_map(x) end)
